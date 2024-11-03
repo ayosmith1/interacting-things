@@ -1,0 +1,49 @@
+let circle1, circle2;
+let speedX1, speedY1, speedX2, speedY2;
+let startingColor1, startingColor2;
+
+function setup() {
+  createCanvas(400, 400);
+  resetCircles();
+}
+
+function draw() {
+  background(220);
+  
+  // Move the circles
+  circle1.x += speedX1;
+  circle1.y += speedY1;
+  circle2.x += speedX2;
+  circle2.y += speedY2;
+
+  // Check for collision and change color if they touch
+  if (dist(circle1.x, circle1.y, circle2.x, circle2.y) < circle1.diameter / 2 + circle2.diameter / 2) {
+    fill(random(255), random(255), random(255));
+  } else {
+    fill(circle1.color);
+  }
+  ellipse(circle1.x, circle1.y, circle1.diameter);
+
+  fill(circle2.color);
+  ellipse(circle2.x, circle2.y, circle2.diameter);
+  
+  // Bounce the circles off the edges
+  if (circle1.x < 0 || circle1.x > width) speedX1 *= -1;
+  if (circle1.y < 0 || circle1.y > height) speedY1 *= -1;
+  if (circle2.x < 0 || circle2.x > width) speedX2 *= -1;
+  if (circle2.y < 0 || circle2.y > height) speedY2 *= -1;
+}
+
+// Reset function to restart the positions and colors
+function resetCircles() {
+  circle1 = { x: 100, y: 200, diameter: 50, color: color(255, 0, 0) };
+  circle2 = { x: 300, y: 200, diameter: 50, color: color(0, 0, 255) };
+  speedX1 = random(-3, 3);
+  speedY1 = random(-3, 3);
+  speedX2 = random(-3, 3);
+  speedY2 = random(-3, 3);
+}
+
+function keyPressed() {
+  resetCircles();
+}
